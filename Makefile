@@ -57,7 +57,7 @@ build_image:
 
 .PHONY: test
 test:
-	./test.sh
+	./hack/test.sh
 
 .PHONY: clean
 clean:
