@@ -1,17 +1,17 @@
-[![Build Status](https://travis-ci.org/kubedev/device-plugin.svg?branch=master)](https://travis-ci.org/kubedev/device-plugin) [![Docker Build Statu](https://img.shields.io/docker/build/kubedev/device-plugin.svg)](https://hub.docker.com/r/kubedev/device-plugin/) [![codecov](https://codecov.io/gh/kubedev/device-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/kubedev/device-plugin)
+[![Build Status](https://travis-ci.org/kubedev/device-plugin.svg?branch=master)](https://travis-ci.org/kubedev/device-plugin) [![codecov](https://codecov.io/gh/kubedev/device-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/kubedev/device-plugin) [![Docker Pulls](https://img.shields.io/docker/pulls/kubedev/device-plugin.svg)](https://hub.docker.com/r/kubedev/device-plugin/)
 # Simple Device Plugin
-Learning how to implement a Kubernetes device plugin. This device plugin will automatically maps the SATA device according to your container SATA requirement.
+Learning how to implement a Kubernetes device-plugin. This device-plugin will automatically maps the SATA device according to your container SATA requirement.
 
 ## Prerequisites
-The list of prerequisites for running the SATA device plugin is described below:
+The list of prerequisites for running the SATA device-plugin is described below:
 * Kubernetes version = 1.10.x.
 * The `DevicePlugins` feature gate enabled.
 
 ## Quick Start
-To install the SATA device plugins:
+To install the SATA device-plugin:
 ```sh
 $ kubectl apply -f https://raw.githubusercontent.com/kubedev/device-plugin/master/artifacts/device-plugin.yml
-$ kubectl -n kube-system get po -l name=sata-device-plugin
+$ kubectl -n kube-system get po -l name=device-plugin
 NAME                            READY     STATUS    RESTARTS   AGE
 device-plugin-ds-jlj8k   1/1       Running   0          38s
 device-plugin-ds-sn2ff   1/1       Running   0          38s
