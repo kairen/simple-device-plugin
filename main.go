@@ -37,7 +37,7 @@ func main() {
 	sigs := newOSWatcher(syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 
 	restart := true
-	var devicePlugin *KairenDevicePlugin
+	var devicePlugin *DevicePlugin
 
 L:
 	for {
@@ -46,7 +46,7 @@ L:
 				devicePlugin.Stop()
 			}
 
-			devicePlugin, err = NewKairenDevicePlugin()
+			devicePlugin, err = NewDevicePlugin()
 			if err != nil {
 				glog.V(2).Infof("Failed to new device plugin. %s", err)
 				os.Exit(1)

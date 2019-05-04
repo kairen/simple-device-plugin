@@ -11,7 +11,7 @@ $(shell mkdir -p $(BUILD_DIR))
 
 ORG := github.com
 OWNER := kubedev
-REPOPATH ?= $(ORG)/$(OWNER)/device-plugin
+REPOPATH ?= $(ORG)/$(OWNER)/simple-device-plugin
 FILES := GOPATH=$(GOPATH) go list  -f '{{join .Deps "\n"}}' ./ | grep $(ORG) | GOPATH=$(GOPATH) xargs go list -f '{{ range $$file := .GoFiles }} {{$$.Dir}}/{{$$file}}{{"\n"}}{{end}}'
 
 define DOCKER

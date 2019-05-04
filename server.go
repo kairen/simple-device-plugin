@@ -14,13 +14,13 @@ import (
 )
 
 const (
-	resourceName  = "kairen.github.io/sata"
+	resourceName  = "kubedev.org/sata"
 	serverSock    = pluginapi.DevicePluginPath + "sata.sock"
 	numberDevices = 5
 )
 
-// KairenDevicePlugin implements the Kubernetes device plugin API
-type KairenDevicePlugin struct {
+// DevicePlugin implements the Kubernetes device plugin API
+type DevicePlugin struct {
 	devs   []*pluginapi.Device
 	socket string
 
@@ -30,8 +30,8 @@ type KairenDevicePlugin struct {
 	server *grpc.Server
 }
 
-// NewKairenDevicePlugin returns an initialized KairenDevicePlugin
-func NewKairenDevicePlugin() (*KairenDevicePlugin, error) {
+// NewDevicePlugin returns an initialized DevicePlugin
+func NewDevicePlugin() (*DevicePlugin, error) {
 	devices, err := GetDevices()
 	if err != nil {
 		return nil, err
@@ -45,7 +45,7 @@ func NewKairenDevicePlugin() (*KairenDevicePlugin, error) {
 		}
 	}
 
-	return &KairenDevicePlugin{
+	return &DevicePlugin{
 		devs:   devs,
 		socket: serverSock,
 		stop:   make(chan interface{}),
@@ -53,7 +53,7 @@ func NewKairenDevicePlugin() (*KairenDevicePlugin, error) {
 	}, nil
 }
 
-func (m *KairenDevicePlugin) GetDevicePluginOptions(context.Context, *pluginapi.Empty) (*pluginapi.DevicePluginOptions, error) {
+func (m *DevicePlugin) GetDevicePluginOptions(context.Context, *pluginapi.Empty) (*pluginapi.DevicePluginOptions, error) {
 	return &pluginapi.DevicePluginOptions{}, nil
 }
 
@@ -74,7 +74,7 @@ func dial(unixSocketPath string, timeout time.Duration) (*grpc.ClientConn, error
 }
 
 // Start starts the gRPC server of the device plugin
-func (m *KairenDevicePlugin) Start() error {
+func (m *DevicePlugin) Start() error {
 	err := m.cleanup()
 	if err != nil {
 		return err
@@ -103,7 +103,7 @@ func (m *KairenDevicePlugin) Start() error {
 }
 
 // Stop stops the gRPC server
-func (m *KairenDevicePlugin) Stop() error {
+func (m *DevicePlugin) Stop() error {
 	if m.server == nil {
 		return nil
 	}
@@ -115,7 +115,7 @@ func (m *KairenDevicePlugin) Stop() error {
 }
 
 // Register registers the device plugin for the given resourceName with Kubelet.
-func (m *KairenDevicePlugin) Register(kubeletEndpoint, resourceName string) error {
+func (m *DevicePlugin) Register(kubeletEndpoint, resourceName string) error {
 	conn, err := dial(kubeletEndpoint, 5*time.Second)
 	if err != nil {
 		return err
@@ -138,8 +138,8 @@ func (m *KairenDevicePlugin) Register(kubeletEndpoint, resourceName string) erro
 }
 
 // ListAndWatch lists devices and update that list according to the health status
-func (m *KairenDevicePlugin) ListAndWatch(e *pluginapi.Empty, s pluginapi.DevicePlugin_ListAndWatchServer) error {
-	glog.Infof("Exposing devices: ", m.devs)
+func (m *DevicePlugin) ListAndWatch(e *pluginapi.Empty, s pluginapi.DevicePlugin_ListAndWatchServer) error {
+	glog.Infof("Exposing devices: %v", m.devs)
 	s.Send(&pluginapi.ListAndWatchResponse{Devices: m.devs})
 
 	for {
@@ -155,8 +155,8 @@ func (m *KairenDevicePlugin) ListAndWatch(e *pluginapi.Empty, s pluginapi.Device
 }
 
 // Allocate which return list of devices.
-func (m *KairenDevicePlugin) Allocate(ctx context.Context, reqs *pluginapi.AllocateRequest) (*pluginapi.AllocateResponse, error) {
-	glog.Infof("Allocate request:", reqs)
+func (m *DevicePlugin) Allocate(ctx context.Context, reqs *pluginapi.AllocateRequest) (*pluginapi.AllocateResponse, error) {
+	glog.Infof("Allocate request: %v", reqs)
 
 	devices, _ := GetDevices()
 	responses := pluginapi.AllocateResponse{}
@@ -173,31 +173,31 @@ func (m *KairenDevicePlugin) Allocate(ctx context.Context, reqs *pluginapi.Alloc
 		}
 		responses.ContainerResponses = append(responses.ContainerResponses, &response)
 	}
-	glog.Infof("Allocate response: ", responses)
+	glog.Infof("Allocate response: %v", responses)
 	return &responses, nil
 }
 
-func (m *KairenDevicePlugin) unhealthy(dev *pluginapi.Device) {
+func (m *DevicePlugin) unhealthy(dev *pluginapi.Device) {
 	m.health <- dev
 }
 
-func (m *KairenDevicePlugin) PreStartContainer(context.Context, *pluginapi.PreStartContainerRequest) (*pluginapi.PreStartContainerResponse, error) {
+func (m *DevicePlugin) PreStartContainer(context.Context, *pluginapi.PreStartContainerRequest) (*pluginapi.PreStartContainerResponse, error) {
 	return &pluginapi.PreStartContainerResponse{}, nil
 }
 
-func (m *KairenDevicePlugin) cleanup() error {
+func (m *DevicePlugin) cleanup() error {
 	if err := os.Remove(m.socket); err != nil && !os.IsNotExist(err) {
 		return err
 	}
 	return nil
 }
 
-// func (m *KairenDevicePlugin) healthcheck() {
+// func (m *DevicePlugin) healthcheck() {
 //
 // }
 
 // Serve starts the gRPC server and register the device plugin to Kubelet
-func (m *KairenDevicePlugin) Serve() error {
+func (m *DevicePlugin) Serve() error {
 	err := m.Start()
 	if err != nil {
 		glog.Errorf("Could not start device plugin: %v", err)

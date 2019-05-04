@@ -9,7 +9,7 @@ spec:
     command: ["sh", "-c", "sleep 1000000"]
     resources:
       requests:
-        kubedev.github.io/sata: 1
+        kubedev.org/sata: 1
       limits:
-        kubedev.github.io/sata: 1
+        kubedev.org/sata: 1
   restartPolicy: OnFailure

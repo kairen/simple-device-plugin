@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/kubedev/device-plugin.svg?branch=master)](https://travis-ci.org/kubedev/device-plugin) [![codecov](https://codecov.io/gh/kubedev/device-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/kubedev/device-plugin) [![Docker Pulls](https://img.shields.io/docker/pulls/kubedev/device-plugin.svg)](https://hub.docker.com/r/kubedev/device-plugin/)
+[![Build Status](https://travis-ci.org/kubedev/simple-device-plugin.svg?branch=master)](https://travis-ci.org/kubedev/simple-device-plugin) [![codecov](https://codecov.io/gh/kubedev/simple-device-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/kubedev/simple-device-plugin) [![Docker Pulls](https://img.shields.io/docker/pulls/kubedev/simple-device-plugin.svg)](https://hub.docker.com/r/kubedev/simple-device-plugin/)
 # Simple Device Plugin
 Learning how to implement a Kubernetes device-plugin. This device-plugin will automatically maps the SATA device according to your container SATA requirement.
 

@@ -73,7 +73,7 @@ func parseSATADevices(data string) (SATADeviceSlice, error) {
 }
 
 func runCombinedOutput(cmd string) (string, error) {
-	glog.V(4).Infof("Run with output:", cmd)
+	glog.V(4).Infof("Run with output: %s", cmd)
 	c := exec.Command("/bin/bash", "-c", cmd)
 	out, err := c.CombinedOutput()
 	if err != nil {

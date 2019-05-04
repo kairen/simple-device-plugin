@@ -6,11 +6,11 @@ metadata:
 spec:
   selector:
     matchLabels:
-      name: device-plugin
+      name: simple-device-plugin
   template:
     metadata:
       labels:
-        name: device-plugin
+        name: simple-device-plugin
     spec:
       tolerations:
       - effect: NoSchedule
@@ -19,7 +19,7 @@ spec:
       priorityClassName: system-cluster-critical
       containers:
       - name: device-plugin
-        image: kubedev/device-plugin:v0.1.0
+        image: kubedev/simple-device-plugin:v0.1.0
         args:
         - -logtostderr
         - -v=2
