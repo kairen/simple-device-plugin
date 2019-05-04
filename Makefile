@@ -30,8 +30,8 @@ ifeq ($(IN_DOCKER),1)
 	BUILD_IN_DOCKER=n
 endif
 
-out/device-plugin: gopath out/sdp-$(GOOS)-$(GOARCH)
-	mv $(BUILD_DIR)/sdp-$(GOOS)-$(GOARCH) $(BUILD_DIR)/sdp
+out/device-plugin: gopath out/device-plugin-$(GOOS)-$(GOARCH)
+	mv $(BUILD_DIR)/device-plugin-$(GOOS)-$(GOARCH) $(BUILD_DIR)/device-plugin
 
 out/device-plugin-%-amd64: $(shell $(FILES))
 ifeq ($(BUILD_IN_DOCKER),y)
